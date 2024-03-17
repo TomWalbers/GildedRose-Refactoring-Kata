@@ -7,7 +7,12 @@ public enum ItemName {
     AGED_BRIE("Aged Brie") {
         @Override
         public int calculateNewQuality(int quality, int sellIn) {
-            return quality + calculateQualityChangeBySellIn(sellIn);
+            return quality + calculateNormalQualityChangeBySellIn(sellIn);
+        }
+
+        @Override
+        public boolean isOfType(String value) {
+            return this.getFullName().equals(value);
         }
     },
     SULFARAS("Sulfuras, Hand of Ragnaros") {
@@ -15,21 +20,47 @@ public enum ItemName {
         public int calculateNewQuality(int quality, int sellIn) {
             return quality;
         }
+
+        @Override
+        public boolean isOfType(String value) {
+            return this.getFullName().equals(value);
+        }
     },
     BACKSTAGE_PASS("Backstage passes to a TAFKAL80ETC concert") {
         @Override
         public int calculateNewQuality(int quality, int sellIn) {
             return calculateBackstageQuality(quality, sellIn);
         }
+
+        @Override
+        public boolean isOfType(String value) {
+            return this.getFullName().equals(value);
+        }
+    },
+    CONJURED("Conjured") {
+        @Override
+        public int calculateNewQuality(int quality, int sellIn) {
+            return quality - calculateNormalQualityChangeBySellIn(sellIn) * 2;
+        }
+
+        @Override
+        public boolean isOfType(String value) {
+            return value.contains(this.getFullName());
+        }
     },
     UNKNOWN("unknown") {
         @Override
         public int calculateNewQuality(int quality, int sellIn) {
-            return quality - calculateQualityChangeBySellIn(sellIn);
+            return quality - calculateNormalQualityChangeBySellIn(sellIn);
+        }
+
+        @Override
+        public boolean isOfType(String value) {
+            return false;
         }
     };
 
-    private static int calculateQualityChangeBySellIn(int sellIn) {
+    private static int calculateNormalQualityChangeBySellIn(int sellIn) {
         return sellIn < 0 ? 2 : 1;
     }
 
@@ -58,10 +89,12 @@ public enum ItemName {
 
     public static ItemName findByFullName(String value) {
         return Arrays.stream(values())
-            .filter(s -> s.getFullName().equals(value))
+            .filter(s -> s.isOfType(value))
             .findFirst()
             .orElse(UNKNOWN);
     }
 
     public abstract int calculateNewQuality(int quality, int sellIn);
+
+    public abstract boolean isOfType(String value);
 }

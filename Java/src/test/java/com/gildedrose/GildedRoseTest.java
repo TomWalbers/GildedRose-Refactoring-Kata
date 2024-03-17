@@ -114,4 +114,27 @@ class GildedRoseTest {
         assertThat( app.items[0].sellIn).isEqualTo(0);
     }
 
+    @Test
+    void shouldLowerQualityTwiceAsFastWhenConjured() {
+        Item[] items = new Item[] {
+            new Item("Conjured hat", 1, 5),
+            new Item("Special Conjured Flask", 1, 5)
+        };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertThat( app.items).extracting("quality").containsOnly(3);
+        assertThat( app.items).extracting("sellIn").containsOnly(0);
+    }
+
+    @Test
+    void shouldLowerQualityTwiceAsFastWithNegativeSellInWhenConjured() {
+        Item[] items = new Item[] {
+            new Item("Conjured hat", 0, 5),
+            new Item("Special Conjured Flask", 0, 5)
+        };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertThat( app.items).extracting("quality").containsOnly(1);
+        assertThat( app.items).extracting("sellIn").containsOnly(-1);
+    }
 }

@@ -1,5 +1,6 @@
 package com.gildedrose;
 
+
 import com.sun.tools.javac.util.List;
 
 class GildedRose {
