@@ -1,9 +1,8 @@
 package com.gildedrose;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static com.gildedrose.SpecialItem.*;
+import static com.gildedrose.ItemName.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -42,7 +41,7 @@ class GildedRoseTest {
     }
     @Test
     void shouldIncreaseQualityWhenAgedBrie() {
-        Item[] items = new Item[] { new Item(AGED_BRIE.getName(), 1, 5) };
+        Item[] items = new Item[] { new Item(AGED_BRIE.getFullName(), 1, 5) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertThat( app.items[0].quality).isEqualTo(6);
@@ -50,7 +49,7 @@ class GildedRoseTest {
     }
     @Test
     void shouldIncreaseQualityTwiceAsFastWhenZeroWhenAgedBrie() {
-        Item[] items = new Item[] { new Item(AGED_BRIE.getName(), 0, 5) };
+        Item[] items = new Item[] { new Item(AGED_BRIE.getFullName(), 0, 5) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertThat( app.items[0].quality).isEqualTo(7);
@@ -58,7 +57,7 @@ class GildedRoseTest {
     }
     @Test
     void shouldIncreaseQualityTwiceAsFastWhenNegativeWhenAgedBrie() {
-        Item[] items = new Item[] { new Item(AGED_BRIE.getName(), -1, 5) };
+        Item[] items = new Item[] { new Item(AGED_BRIE.getFullName(), -1, 5) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertThat( app.items[0].quality).isEqualTo(7);
@@ -67,7 +66,7 @@ class GildedRoseTest {
 
     @Test
     void shouldNotDecreaseQualityWhenSulfuras(){
-        Item[] items = new Item[] { new Item(SULFARAS.getName(), 1, 5) };
+        Item[] items = new Item[] { new Item(SULFARAS.getFullName(), 1, 5) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertThat( app.items[0].quality).isEqualTo(5);
@@ -76,7 +75,7 @@ class GildedRoseTest {
 
     @Test
     void shouldIncreaseQualitySellInOverTenWhenBackstagePass(){
-        Item[] items = new Item[] { new Item(BACKSTAGE_PASS.getName(), 11, 5) };
+        Item[] items = new Item[] { new Item(BACKSTAGE_PASS.getFullName(), 11, 5) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertThat( app.items[0].quality).isEqualTo(6);
@@ -84,7 +83,7 @@ class GildedRoseTest {
     }
     @Test
     void shouldIncreaseQualitySellInOverFiveWhenBackstagePass(){
-        Item[] items = new Item[] { new Item(BACKSTAGE_PASS.getName(), 10, 5) };
+        Item[] items = new Item[] { new Item(BACKSTAGE_PASS.getFullName(), 10, 5) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertThat( app.items[0].quality).isEqualTo(7);
@@ -92,7 +91,7 @@ class GildedRoseTest {
     }
     @Test
     void shouldIncreaseQualityWhenBackstagePass(){
-        Item[] items = new Item[] { new Item(BACKSTAGE_PASS.getName(), 5, 5) };
+        Item[] items = new Item[] { new Item(BACKSTAGE_PASS.getFullName(), 5, 5) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertThat( app.items[0].quality).isEqualTo(8);
@@ -100,7 +99,7 @@ class GildedRoseTest {
     }
     @Test
     void shouldHaveNoQualityWhenNegativeSellInWhenBackstagePass(){
-        Item[] items = new Item[] { new Item(BACKSTAGE_PASS.getName(), 0, 5) };
+        Item[] items = new Item[] { new Item(BACKSTAGE_PASS.getFullName(), 0, 5) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertThat( app.items[0].quality).isEqualTo(0);
@@ -108,7 +107,7 @@ class GildedRoseTest {
     }
     @Test
     void shouldNeverExceedQualityFifty(){
-        Item[] items = new Item[] { new Item(AGED_BRIE.getName(), 1, 50) };
+        Item[] items = new Item[] { new Item(AGED_BRIE.getFullName(), 1, 50) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertThat( app.items[0].quality).isEqualTo(50);
