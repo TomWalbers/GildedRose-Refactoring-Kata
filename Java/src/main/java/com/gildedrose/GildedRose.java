@@ -14,9 +14,7 @@ class GildedRose {
         List<Item> itemList = List.from(items);
         itemList.stream()
             .peek(GildedRose::decreaseSellIn)
-            .peek(item -> item.quality = calculateQuality(item))
-            .peek(item -> item.quality = Integer.min(50, item.quality))
-            .forEach(item -> item.quality = Integer.max(0, item.quality));
+            .forEach(item -> item.quality = calculateQuality(item));
     }
 
     private static void decreaseSellIn(Item item1) {
@@ -24,7 +22,10 @@ class GildedRose {
     }
 
     private int calculateQuality(Item item) {
-        return ItemName.findByFullName(item.name).calculateNewQuality(item.quality, item.sellIn);
+        int newQuality = ItemType.findByItemName(item.name).calculateNewQuality(item.quality, item.sellIn);
+        newQuality = Integer.min(50, newQuality);
+        newQuality = Integer.max(0, newQuality);
+        return newQuality;
     }
 
 }

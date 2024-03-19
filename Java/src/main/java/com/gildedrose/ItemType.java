@@ -2,7 +2,7 @@ package com.gildedrose;
 
 import java.util.Arrays;
 
-public enum ItemName {
+public enum ItemType {
 
     AGED_BRIE("Aged Brie") {
         @Override
@@ -12,7 +12,7 @@ public enum ItemName {
 
         @Override
         public boolean isOfType(String value) {
-            return this.getFullName().equals(value);
+            return this.getTypeName().equals(value);
         }
     },
     SULFARAS("Sulfuras, Hand of Ragnaros") {
@@ -23,7 +23,7 @@ public enum ItemName {
 
         @Override
         public boolean isOfType(String value) {
-            return this.getFullName().equals(value);
+            return this.getTypeName().equals(value);
         }
     },
     BACKSTAGE_PASS("Backstage passes to a TAFKAL80ETC concert") {
@@ -34,7 +34,7 @@ public enum ItemName {
 
         @Override
         public boolean isOfType(String value) {
-            return this.getFullName().equals(value);
+            return this.getTypeName().equals(value);
         }
     },
     CONJURED("Conjured") {
@@ -45,10 +45,10 @@ public enum ItemName {
 
         @Override
         public boolean isOfType(String value) {
-            return value.contains(this.getFullName());
+            return value.contains(this.getTypeName());
         }
     },
-    UNKNOWN("unknown") {
+    DEFAULT("default") {
         @Override
         public int calculateNewQuality(int quality, int sellIn) {
             return quality - calculateNormalQualityChangeBySellIn(sellIn);
@@ -77,21 +77,21 @@ public enum ItemName {
         return quality + 1;
     }
 
-    private final String fullName;
+    private final String typeName;
 
-    ItemName(String fullName) {
-        this.fullName = fullName;
+    ItemType(String typeName) {
+        this.typeName = typeName;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getTypeName() {
+        return typeName;
     }
 
-    public static ItemName findByFullName(String value) {
+    public static ItemType findByItemName(String value) {
         return Arrays.stream(values())
             .filter(s -> s.isOfType(value))
             .findFirst()
-            .orElse(UNKNOWN);
+            .orElse(DEFAULT);
     }
 
     public abstract int calculateNewQuality(int quality, int sellIn);
